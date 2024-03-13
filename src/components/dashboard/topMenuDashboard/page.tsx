@@ -43,7 +43,7 @@ const TopMenuDashboard:React.FC<PropsTypes> = ({ currentScreen }) => {
   const handleOnChangeScreen = (value: string) => {
     setSelectedOption(value)
     if(value == DASHBOARD_SCREENS[0]){
-      router.push("/dashboard/"+value)
+      router.push("/dashboard/"+ value)
     }
   }
 
