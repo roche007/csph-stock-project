@@ -21,7 +21,7 @@ interface MenuItem {
     console.log(pathname)
 
     return (
-        <Link href={item.path} className="flex p-2 items-center gap-1 text-dark-green" >
+        <Link href={item.path} className="flex p-2 items-center justify-start gap-1 text-dark-green" >
             {item.icon}
             {item.title}
         </Link>
