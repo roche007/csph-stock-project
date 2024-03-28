@@ -1,8 +1,33 @@
+"use client"
+
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import SearchPage from "@/components/dashboard/search/search";
 import Link from "next/link";
 import Pagination from "@/components/dashboard/pagination/pagination";
 
-export default function PersonnelPage() {
+interface User {
+    id: number;
+    name: string; // Champ modifié en "Nom"
+    email: string;
+    // Ajoutez d'autres champs au besoin
+}
+
+const PersonnelPage = () => {
+    const [users, setUsers] = useState<User[]>([]);
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/api/users/');
+                setUsers(response.data);
+            } catch (error) {
+                console.error('Error fetching users:', error);
+            }
+        };
+        fetchUsers();
+    }, []);
+
     return (
         <div className="h-[calc(100%-50px)]">
             <div className="">
@@ -27,27 +52,24 @@ export default function PersonnelPage() {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td className="px-4 py-2 text-center">
-                                        <div className="flex items-center justify-center">
-                                            <img src="/assets/img/avatar.png" alt="Avatar" height={40} width={40}/>
-                                            <span className="ml-2">Aang</span>
-                                        </div>
-                                    </td>
-                                    <td className="px-4 py-2 text-center">Aang@gmail.com</td>
-                                    <td className="px-4 py-2 text-center">3333</td>
-                                    <td className="px-4 py-2 text-center">12.12.2022</td>
-                                    <td className="px-4 py-2 text-center">Admin</td>
-                                    <td className="px-4 py-2 text-center">Active</td>
-                                    <td>
-                                        <div className="flex justify-center items-center">
-                                            <Link href="/profile/[id]" as="/profile/1">
-                                                <button className="bg-claier-blue rounded-lg mr-2 cursor-pointer"><span className="p-2">View</span></button>
-                                            </Link>
-                                            <button className="bg-red-400 rounded-lg ml-2 cursor-pointer"><span className="p-2">Delete</span></button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                {users.map((user) => (
+                                    <tr key={user.id}>
+                                        <td className="px-4 py-2 text-center">{user.name}</td> {/* Utilisez "Nom" au lieu de "nom" */}
+                                        <td className="px-4 py-2 text-center">{user.email}</td>
+                                        <td className="px-4 py-2 text-center">3333</td>
+                                        <td className="px-4 py-2 text-center">12.12.2022</td>
+                                        <td className="px-4 py-2 text-center">Admin</td>
+                                        <td className="px-4 py-2 text-center">Active</td>
+                                        <td>
+                                            <div className="flex justify-center items-center">
+                                                <Link href={`/profile/${user.id}`} as={`/profile/${user.id}`}>
+                                                    <button className="bg-claier-blue rounded-lg mr-2 cursor-pointer"><span className="p-2">View</span></button>
+                                                </Link>
+                                                <button className="bg-red-400 rounded-lg ml-2 cursor-pointer"><span className="p-2">Delete</span></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                         <Pagination />
@@ -56,4 +78,6 @@ export default function PersonnelPage() {
             </div>
         </div>
     );
-}
+};
+
+export default PersonnelPage;

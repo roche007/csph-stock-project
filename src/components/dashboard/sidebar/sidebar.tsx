@@ -1,6 +1,8 @@
 "use client"
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import axios from 'axios'; 
 import { DASHBOARD_SCREENS } from '@/constants/dashboard';
 import MenuLink from './menuLink/menuLink';
 import { TbReportAnalytics } from "react-icons/tb";
@@ -29,6 +31,7 @@ const SideBarPage = () => {
         : [...prevOpenCategories, title]
     );
   };
+  // const router = useRouter();
 
   const menuItems = [
     {
@@ -158,6 +161,22 @@ const SideBarPage = () => {
     },
   ];
 
+  /* const handleLogout = async () => {
+    try {
+      const response = await axios.post("http://localhost:8000/api/logout", null, {
+        withCredentials: true
+      });
+      if (response.status === 200) {
+        localStorage.removeItem('token');
+        router.push("/");
+      } else {
+        console.error('Erreur lors de la déconnexion:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la déconnexion:', error);
+    }
+  }; */
+
   return (
     <div className="w-full h-[calc(100%-50px)] flex flex-col mt-16 ">
     <div className="flex flex-col items-center justify-center mb-30 fixed top-0 left-0 right-0 z-50 bg-background-yellow">
@@ -186,9 +205,9 @@ const SideBarPage = () => {
   </div>
 
   <div className="flex flex-col items-center justify-center mt-auto fixed bottom-0 left-0 right-0">
-    <button className="p-2 flex items-center cursor-pointer justify-between text-dark-green">
+    <button className="p-2 flex items-center cursor-pointer justify-between text-dark-green" >
       <TbLogout />
-      <span className="p-1 text-dark-green">Log Out</span>
+      <span className="p-1 text-dark-green">Deconnecxion</span>
     </button>
   </div>
 </div>
